@@ -1,13 +1,5 @@
-# NO THING TO READ
+# A Vuepress BLog
 
-## Coder
-
-want to be a java coder
-
-## Gamer
-
-want to be a master player
-
-## Human
-
-want to enjoy the life
+- It just a vuepress blog
+- writed by Never See
+- a freshman
