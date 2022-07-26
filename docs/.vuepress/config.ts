@@ -17,14 +17,9 @@ export default defineConfig({
         text: 'Java',
         items: [
           {
-            text: '基础',
-            items: [
-              {
-                text: '1',
-                link: '/java/basic'
-              }
-            ]
-          }
+            text: '基础理论',
+            link: '/java/basic'
+          },
         ]
       },
       { text: '待整理', link: '/unorganized/' },
@@ -41,6 +36,11 @@ export default defineConfig({
         title: '基础知识',
         collapsable: false,
         children: ['network', 'theory']
+      }],
+      '/java/': [{
+        title: '基础理论',
+        collapsable: false,
+        children: ['basic', 'mechanism']
       }]
     },
   },
