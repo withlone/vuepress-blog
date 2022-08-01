@@ -20,6 +20,10 @@ export default defineConfig({
             text: '基础理论',
             link: '/java/basic'
           },
+          {
+            text: '多进程',
+            link: '/java/multi_process/basic'
+          }
         ]
       },
       { text: '待整理', link: '/unorganized/' },
@@ -40,7 +44,11 @@ export default defineConfig({
       '/java/': [{
         title: '基础理论',
         collapsable: false,
-        children: ['basic', 'mechanism']
+        children: ['basic', 'mechanism', 'collection']
+      },{
+        title: '多线程',
+        collapsable: false,
+        children: ['multi_process/basic']
       }]
     },
   },
