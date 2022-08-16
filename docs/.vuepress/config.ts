@@ -11,6 +11,7 @@ export default defineConfig({
   themeConfig: {
     lastUpdated: '最后更新时间',
     nav: [
+      { text: '工具', link: '/tool/' },
       { text: '常用表', link: '/always/network' },
       { text: '基础知识', link: '/basic/network' },
       {
