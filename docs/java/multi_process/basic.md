@@ -1,5 +1,7 @@
 # 理论基础
 
+[[TOC]]
+
 ## 并发三要素
 
 - 可见性: CPU缓存, 不同线程对一个变量的修改其他线程不能马上看到, 而是先修改线程自身的缓存
@@ -70,7 +72,71 @@
 
 ---
 
-- 
+- 公平锁: 线程按申请锁的顺序执行, 线程不会饿死, 但吞吐效率低
+- 非公平锁: 线程直接尝试获取锁, 新线程获取锁无需唤醒旧线程, 减少唤醒线程开销, 吞吐率高, 但线程可能饿死, 如synchroinzed
+
+---
+
+- 可重入锁: 同一线程外层方法获取锁后进入内层方法, 内层方法自动获取锁(如锁同一个对象或class), 如ReentrantLock, synchronized
+- 非可重入锁: 如NonReentrantLock
+
+---
+
+- 独享锁/排他锁: 锁一次只能被一个线程持有, 不能加上其他任何类型锁
+- 共享锁: 可被多个线程持有, 只能读取数据不能修改
+
+**JVM锁优化**:
 
 - 锁消除: 编译器将检测到不存在共享数据冲突的锁消除
 - 锁粗化: 反复加锁的操作粗化到整个步骤加锁
+- 轻量级锁: 用于大部分锁大部分时间处于无锁竞争状态的方案
+  1. 在对象头`Object Header`中一部分存储对象自身的运行时数据`Mark Word`(`HashCode`, `GC Age`, `锁标记位`, `是否为偏向锁`), 另一部分存储指向方法区对象类型数据的指针`Klass Word`
+  2. 锁标记位状态包含: 00轻量级锁, 01无锁, 10重量级锁
+  3. 若同步对象为01状态, 则执行当前线程时, 在当前线程栈帧中创建`Lock Record`, 存储同步对象的`Mark Word`, 并用CAS将同步对象的`Mark Word`修改为指向`Lock Record`的指针, 并将栈帧中存储`Mark Word`的状态改为00
+  4. 如果CAS失败, 若`Mark Word`指向当前栈帧, 说明可以继续直接使用, 否则说明被其他线程抢占, 此时通过修改锁标记位为10将锁膨胀为重量级锁
+- 偏向锁: 某一线程会更多的获取锁, 让该线程进出同步块无需CAS操作, 只需测试`Mark Word`是否存在该线程的偏向锁, 出现竞争时释放偏向锁并暂停偏向线程
+
+## synchronized
+
+- 指定锁定对象: this, 某一对象, .class
+- 修饰方法: 普通方法等价于this, 静态方法等价于.class
+- 加锁原理: 用monitor计数器表示被执行线程重入次数, 当monitor为0表示未锁, 大于0表示被重入次数
+- 缺点: 效率低, 不灵活, 无法得知是否成功获取锁
+
+## volatile
+
+- 作用: 防止重排(有序性), 共享变量修改可见(可见性)
+- 可见性实现: 使用lock前缀的指令, 使得线程缓存数据会写回主存, 且写回后其他线程缓存的该地址数据失效(缓存一致性协议, 嗅探协议)
+- 有序性实现: happens-before原则, 编译volatile变量的指令时, JMM提供内存屏障防止特定类型的重排方式
+
+## final
+
+- final修饰的方法不可被重写, private方法默认为final
+- final修饰的变量运算时不会自动转换类型
+- static final: 必须在声明时赋值
+- blank final: 声明为final的参数可在构造器中赋值
+- 重排规则: 禁止final域写重排到构造方法外, 禁止先读对象的final域再读对象的引用, 禁止先将final对象的引用赋值给引用变量再写入该对象
+
+## Unsafe
+
+- 作用: 访问管理底层资源
+
+![java-thread-x-atomicinteger-unsafe](/java/java-thread-x-atomicinteger-unsafe.png)
+
+## 原子类
+
+- AtomicInteger, AtomicBoolean, AtomicLong, ...: 用volatile的变量以及Unsafe类的CAS修改数据
+- AtomicReference: 原子更新引用类型, 即用于自定义类的原子操作, 但仅对类中volatile修饰的字段有用
+- AtomicStampedReference: AtomicReference基础上使用Pair存储元素和版本号, 解决ABA问题
+- AtomicMarkableReference: 维护boolean标记, 解决ABA问题
+- AtomicIntegerFieldUpdater(Boolean, Stamped, Reference): 利用反射的方法, 指定类中的字段, 进行原子的更新操作, 该类可以对同类下不同的实例操作, 但非updater的只能对一个实例操作
+
+## LockSuppport
+
+用于创建锁和其他同步类的基本线程阻塞原语, 直接使用LockSupport的静态函数, 无法实例化LockSupport
+
+### 函数
+
+- `(Unsafe) unsafe.park(boolean isAbsolute, long time)`: 阻塞线程, time = 0表示无穷长, isAbsolute表示是否为绝对时间(即时间戳还是时间长度)
+- `(Unsafe) unsafe.unpark(Thread thread)`: 释放线程许可, 若先`unpark`, 后一次的`park`将直接跳过阻塞
+- `LockSupport.park()`
