@@ -138,5 +138,35 @@
 ### 函数
 
 - `(Unsafe) unsafe.park(boolean isAbsolute, long time)`: 阻塞线程, time = 0表示无穷长, isAbsolute表示是否为绝对时间(即时间戳还是时间长度)
-- `(Unsafe) unsafe.unpark(Thread thread)`: 释放线程许可, 若先`unpark`, 后一次的`park`将直接跳过阻塞
-- `LockSupport.park()`
+- `(Unsafe) unsafe.unpark(Thread thread)`: 释放线程许可
+- `LockSupport.park()`: 阻塞当前线程
+- `LockSupport.park(Object blocker)`: 阻塞当前线程, 标识blocker为等待对象, 该函数的实现中有两次`setBlocker`, 其中第二次`setBlocker`因`unsafe.park()`而阻塞, 只有当线程再次运行时才会进行第二次`setBlocker`
+- `LockSupport.parkNanos(Object blocker, long nanos)`: 阻塞当前线程至多nanos毫秒
+- `LockSupport.parkUntil(Object blocker, long deadline)`: 阻塞当前线程至多到deadline时间
+- `LockSupport.unpark(Thread thread)`: 给线程thread许可, 即解除thread阻塞, 若线程`unpark`, 后一次的`park`将直接跳过阻塞, 对指定线程执行`interrupt()`可以达到同样的效果
+
+### 比较
+
+- Thread.sleep(), LockSupport.park(): 不会释放占有锁
+- Object.wait(), Condition.await(): 均释放锁, 前者需要在synchronized块中使用, 后者底层调用LockSupport.park()实现阻塞
+
+## AQS(AbstractQueuedSynchronizer)
+
+用来构建锁和同步器的框架, 基于CLH队列锁(虚拟的双向队列, 仅存在节点关联关系)
+
+- 资源共享方式: `Exclusive`(独占), `Share`(共享)
+- `state`: 表示被同一线程重入次数
+- 模板方法(需重写):
+  - `isHeldExclusively()`: 该线程是否正在独占资源。只有用到condition才需要去实现它
+  - `tryAcquire(int)`: 独占方式。尝试获取资源，成功则返回true，失败则返回false
+  - `tryRelease(int)`: 独占方式。尝试释放资源，成功则返回true，失败则返回false
+  - `tryAcquireShared(int)`: 共享方式。尝试获取资源。负数表示失败；0表示成功，但没有剩余可用资源；正数表示成功，且有剩余资源
+  - `tryReleaseShared(int)`: 共享方式。尝试释放资源，成功则返回true，失败则返回false。
+- 内部类`Node`(AQS节点)中共享变量`waitStatus`:
+  - `CANCELLED(1)`: 当前节点的线程取消
+  - `SIGNAL(-1)`: 后继节点包含需运行线程, 表示`unpark`
+  - `CONDITION(-2)`: 当前节点在condition队列中
+  - `PROPAGATE(-3)`: 后续的`acquiredShared`可执行
+  - `(0)`: 在sync队列中, 等待获取锁
+
+## ReentrantLock
