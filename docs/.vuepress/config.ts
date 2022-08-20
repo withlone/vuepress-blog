@@ -49,7 +49,7 @@ export default defineConfig({
       },{
         title: '多线程',
         collapsable: false,
-        children: ['multi_process/basic']
+        children: ['multi_process/basic', 'multi_process/javalib']
       }]
     },
   },
