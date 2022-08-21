@@ -60,6 +60,14 @@
 - `Thread.sleep(), LockSupport.park()`: 不会释放占有锁
 - `Object.wait(), Condition.await()`: 均释放锁, 前者需要在synchronized块中使用, 后者底层调用LockSupport.park()实现阻塞
 
+### ThreadLocal
+
+在不同的线程中创建独立的成员变量
+
+- 如果希望ThreadLocal把某个类与线程关联起来, 则需用`private static`修饰ThreadLocal
+- 实现原理为利用ThreadLocalMap记录线程对应的变量值, ThreadLocalMap用数组模拟map, 且Entry使用弱引用
+- 线程池操作ThreadLocal时, 由于线程池不会销毁线程, ThreadLocal对应的对象不会被释放, 导致内存泄漏, 在线程结束前调用`ThreadLocal::remove`可以解决问题
+
 ## 基本接口
 
 ### Condition

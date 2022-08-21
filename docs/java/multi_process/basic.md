@@ -40,8 +40,8 @@
 
 ## 线程的实现
 
-- 实现Runnable接口
-- 实现Callable接口
+- 实现Runnable接口, 无返回值, 不能抛出异常
+- 实现Callable接口, 有返回值, 可抛出异常
 - 继承Thread类
 
 ## 线程基础使用

@@ -45,7 +45,7 @@ export default defineConfig({
       '/java/': [{
         title: '基础理论',
         collapsable: false,
-        children: ['basic', 'mechanism', 'collection']
+        children: ['basic/basic', 'basic/mechanism', 'basic/collection']
       },{
         title: '多线程',
         collapsable: false,
