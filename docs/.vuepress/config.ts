@@ -19,7 +19,7 @@ export default defineConfig({
         items: [
           {
             text: '基础理论',
-            link: '/java/basic'
+            link: '/java/basic/basic'
           },
           {
             text: '多进程',

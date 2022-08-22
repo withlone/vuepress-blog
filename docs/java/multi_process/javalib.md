@@ -292,3 +292,97 @@ public class ReentrantReadWriteLock implements ReadWriteLock {
   
 }
 ```
+
+## 线程池
+
+### 线程池作用
+
+- 降低资源消耗, 线程的创建与销毁
+- 提高响应速度, 无需创建线程
+- 提高线程的可管理性
+
+### Future接口
+
+- `cancel(boolean)`: 取消异步任务执行, 返回此次取消是否成功. 若任务正在执行, 参数为true时立刻中断任务且返回true, 参数为false时不会中断任务且返回true
+- `isCanceled()`: 判断任务是否取消
+- `isDone()`: 判断任务是否完成, 正常结束或发生异常均为完成
+- `get()`: 阻塞式获取任务结果
+- `get(long, Timeunit)`: `get()`限时版
+
+### FutureTask
+
+- 实现`Future`和`Runnable`
+- 将任务分为7个状态, 其中最终态有`NORMAL, EXCEPTIONAL, CANCELLED, INTERRUPTED`
+
+  0. `NEW`: 新任务
+  1. `COMPLETING`: 执行完成但未保存结果或异常结果
+  2. `NORMAL`: 执行完成且保存结果
+  3. `EXCEPTIONAL`: 执行完成且保存异常结果
+  4. `CANCELLED`: 被用户调用`cancel()`而取消
+  5. `INTERRUPTING`: 正在中断任务
+  6. `INTERRUPTED`: 任务已中断
+
+### ThreadPoolExecutor
+
+线程集合workerSet和阻塞队列workQueue, 用户向线程池提交任务时先放入workQueue, 然后workerSet从workQueue中获取任务然后执行, 若workQueue中没有任务, worker阻塞
+
+#### 构造函数
+
+``` java
+public ThreadPoolExecutor(int corePoolSize,
+                            int maximumPoolSize,
+                            long keepAliveTime,
+                            TimeUnit unit,
+                            BlockingQueue<Runnable> workQueue,
+                            ThreadFactory threadFactory,
+                            RejectedExecutionHandler handler) {}
+```
+
+- `corePoolSize`: 线程池核心线程数, 允许最大并行数
+- `maximumPoolSize`: 线程池允许的最多线程数, 只有当阻塞队列时有界队列时有效
+- `workQueue`: 等待被执行任务的阻塞队列, 使用`BlockingQueue`子类
+- `keepAliveTime`: 非核心线程的存活时间
+- `unit`: `keepAliveTime`单位
+- `threadFactory`: 可选, 创建线程的工厂, 默认DefaultThreadFactory
+- `handler`: 线程池饱和策略, 阻塞队列满时如何处理新任务, 可使用已有策略, 或自定义策略
+  - `AbortPolicy`: 默认, 抛出异常
+  - `CallerRunsPolicy`: 使用调用者所在线程执行任务
+  - `DiscardOldestPolicy`: 丢弃阻塞队列中最靠前任务
+  - `DiscardPolicy`: 丢弃任务
+
+**线程数说明**:
+
+- `任务数<=corePoolSize`: 由核心线程处理任务
+- `corePoolSize<任务数<=(corePoolSize+workQueue.size())`: 所有核心线程处理任务, 剩下任务放入阻塞队列
+- `(corePoolSize+workQueue.size())<任务数<=(maximumPoolSize+workQueue.size())`: 先给满核心线程, 再给满阻塞队列, 剩下的由非核心线程直接执行
+- `任务数>(maximumPoolSize+workQueue.size())`: 处理完`(maximumPoolSize+workQueue.size())`个线程, 剩下任务根据`handler`处理
+
+#### Executors创建
+
+- `newFixedThreadPool(int nThreads)`: 核心线程和最大线程设为nThreads, 阻塞队列为无界队列
+- `newSingleThreadExecutor()`: `newFixedThreadPool(1)`
+- `newCachedThreadPool()`: 无核心线程, 线程池大小INT_MAX, 有空闲线程则取任务执行, 否则新建, 执行完任务的线程有60秒存活时间, 使用`SynchronousQueue`为阻塞队列
+- `newScheduledThreadPoolExecutor(int corePoolSize)`: 为任务提供延迟或周期执行, 用`ScheduledFutureTask`实现可延迟的异步计算任务, 用`DelayedWorkQueue`实现存放周期或延时任务的延迟优先队列
+
+**不推荐原因**:
+
+- `newFixedThreadPool`和`newSingleThreadExecutor`: 阻塞队列无上限可能导致OOM
+- `newCachedThreadPool`和`newScheduledThreadPool`: 线程池线程数最大为INT_MAX, 可能导致OOM
+
+#### 关闭线程池
+
+- `shutdown`: 将线程池状态设为SHUTDOWN, 中断所有没有执行任务的线程
+- `shutdownNow`: 将线程池状态设为STOP, 停止所有正在执行或暂停任务的线程
+- `isShutDown`: 表示是否调用过关闭函数
+- `isTerminated`: 表示所有任务是否都关闭
+
+#### 源码分析
+
+- `ctl: AtomicInteger`: 高3位存放线程池状态, 其余存放运行的worker数量
+  - `RUNNING: 111`: 接受新任务, 处理阻塞队列任务
+  - `SHUTDOWN: 000`: 不接受新任务, 处理阻塞队列任务
+  - `STOP: 001`: 不接受新任务, 不处理阻塞队列任务, 中断正在运行任务
+  - `TIDYING: 010`: 所有任务已终止
+  - `TERMINATED: 011`: `terminated()`方法完成
+- 任务执行: `execute`决定拒绝任务或接受任务, `addWorker`创建线程并执行任务, `getTask`从阻塞队列获取任务
+- 任务提交: 使用`submit()`提交任务, 拿到返回的`Future`来获得线程结果
