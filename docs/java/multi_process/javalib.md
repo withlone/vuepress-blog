@@ -326,7 +326,7 @@ public class ReentrantReadWriteLock implements ReadWriteLock {
 
 线程集合workerSet和阻塞队列workQueue, 用户向线程池提交任务时先放入workQueue, 然后workerSet从workQueue中获取任务然后执行, 若workQueue中没有任务, worker阻塞
 
-#### 构造函数
+**构造函数**:
 
 ``` java
 public ThreadPoolExecutor(int corePoolSize,
@@ -386,3 +386,69 @@ public ThreadPoolExecutor(int corePoolSize,
   - `TERMINATED: 011`: `terminated()`方法完成
 - 任务执行: `execute`决定拒绝任务或接受任务, `addWorker`创建线程并执行任务, `getTask`从阻塞队列获取任务
 - 任务提交: 使用`submit()`提交任务, 拿到返回的`Future`来获得线程结果
+
+### ForkJoinPool
+
+- 将大任务拆成多个小任务来异步执行的工具, 从java7开始
+- 两大思想: 分治, 工作窃取(work-stealing, 工作线程优先处理自身队列任务, 然后随机窃取其他队列任务)
+- 概要: `ForkJoinPool`通过池中的`ForkJoinWorkerThread`处理`ForkJoinTask<T>`任务(包括子类`RecursiveTask`, `RecursiveAction`和`CountedCompleter`)
+  - `RecursiveTask`: 可递归执行的有返回值的`RecursiveTask`
+  - `RecursiveAction`: 无返回值的`RecursiveTask`
+  - `CountedCompleter`: 任务完成后或发生异常后触发自定义函数
+
+**构造函数**:
+
+``` java
+public ForkJoinPool(int parallelism, // 并行度, 默认CPU数
+                    ForkJoinWorkerThreadFactory factory, // 工作线程工厂
+                    UncaughtExceptionHandler handler, // 异常处理类
+                    boolean asyncMode){} // 是否异步, 默认false
+```
+
+- `invoke(ForkJoinTask)`: 等待任务计算完毕并返回结果
+- `execute(ForkJoinTask)`: 提交异步任务, 无返回值
+- `submit(ForkJoinTask)`: 异步执行, 之后通过`ForkJoinTask.get()`阻塞等待结果
+- `ForkJoinTask.fork()`: 提交子任务, 分割任务
+- `ForkJoinTask.join()`: 获取子任务结果, 合并任务
+- `ForkJoinTask.invoke()`: 执行任务并等待结果
+
+### CountDownLatch
+
+- 内部有实现AQS的成员
+- 用于协调多线程之间的同步, 起到线程间简单通信作用, 部分线程调用`countDown()`使得计数器减1, 部分线程调用`await()`等待计数器为0结束时结束阻塞
+- `public CountDownLatch(int count)`: 构造给定计数初始化为count
+- 2种典型用法
+  1. 某一线程运行前需要等待n个线程完成, 初始化`CountDownLatch(int n)`, n个线程执行`countDown()`, 唯一线程执行`await()`
+  2. 实行多线程开始执行任务的最大并行度, 初始化`CountDownLatch(1)`, 一个线程执行`countDown()`, 多个线程执行`await()`
+
+### CyclicBarrier
+
+- 内部有实现AQS的成员
+- 让所有线程均完成后(执行到`CyclicBarrier.await()`), 所有线程才能够进行下一步操作
+- `public CyclicBarrier(int parties, Runnable barrieraction)`: `parties`表示参与的线程数, `barrieraction`表示最后一个完成的线程要做的操作
+- `await()`: 表示已经完成一部分, 需等待其他线程完成, 内部使用`doWait()`实现, 所有任务均完成后使用`nextGeneration()`重置屏障
+
+### Semaphore
+
+- 信号量
+- `public Semaphore(int permits, boolean fair)`: `permits`初始许可数, `fair`是否公平
+- `acquire()`: 阻塞式获取一个许可
+- `tryAcquire()`: 尝试获取一个许可, 返回是否成功
+- `release()`: 释放一个许可
+
+### Phaser
+
+- `CyclicBarrier`可以动态修改`party`且能控制是否阻塞版
+- `register()`: 注册一个新的`party`
+- `bulkRegister(int parties)`: 批量注册`party`
+- `arrive()`: 到达且不等待其他任务到达, 返回`phase number`
+- `arriveAndDeregister()`: 到达并取消注册, 返回`phase number`
+- `arriveAndAwaitAdvance()`: 到达且等待其他任务到达, 返回`phase number`
+- `awaitAdvance(int phase)`: 阻塞到当前`phaser`变为`phase`
+- `state`: 低16位表示未到达`parties`数, 中16-31位表示等待的`parties`数, 中32-62位表示`phase number`当前代(每到达1次加1), 63位表示当前`phaser`的终止状态
+
+### Exchanger
+
+- 两个线程之间交换数据, 第一个到达的线程在slot中放入数据, 阻塞等待, 第二个线程到达后读取存入数据, 交换数据, 唤醒第一个线程
+- `V exchange(V x)`: `x`为要交换的数据, 返回值为交换得到的数据
+- 内部使用`arena`数组降低竞争
