@@ -24,6 +24,10 @@ export default defineConfig({
           {
             text: '多进程',
             link: '/java/multi_process/basic'
+          },
+          {
+            text: 'JVM',
+            link: '/java/jvm/basic'
           }
         ]
       },
@@ -50,6 +54,10 @@ export default defineConfig({
         title: '多线程',
         collapsable: false,
         children: ['multi_process/basic', 'multi_process/javalib']
+      },{
+        title: 'JVM',
+        collapsable: false,
+        children: ['jvm/basic', 'jvm/gc']
       }]
     },
   },
@@ -57,7 +65,7 @@ export default defineConfig({
     lineNumbers: true
   },
   plugins: [
-    ['vuepress-plugin-code-copy', {}]
+    ['vuepress-plugin-code-copy', {}], '@vuepress/plugin-medium-zoom'
   ],
   // base: '/camille.github.io/', // 构建到github上时使用该代码
   dest: './build'
