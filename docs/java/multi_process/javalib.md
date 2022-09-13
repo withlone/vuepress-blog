@@ -31,7 +31,7 @@
 
 - 作用: 访问管理底层资源
 
-![java-thread-x-atomicinteger-unsafe](/java/java-thread-x-atomicinteger-unsafe.png)
+<img :src="$withBase('/java/java-thread-x-atomicinteger-unsafe.png')" alt="java-thread-x-atomicinteger-unsafe">
 
 ### 原子类
 

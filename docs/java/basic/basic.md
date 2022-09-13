@@ -14,9 +14,9 @@
 
 | 泛化关系 | 实现关系 | 聚合关系 |
 | - | - | - |
-| ![泛化关系](/java/泛化.svg) | ![实现关系](/java/实现.svg) | ![聚合关系](/java/聚合.svg) |
+| <img :src="$withBase('/java/泛化.svg')" alt="泛化关系"> | <img :src="$withBase('/java/实现.svg')" alt="实现关系"> | <img :src="$withBase('/java/聚合.svg')" alt="聚合关系"> |
 | 组合关系 | 关联关系 | 依赖关系 |
-| ![组合关系](/java/组合.svg) | ![关联关系](/java/关联.svg) | ![依赖关系](/java/依赖.svg) |
+| <img :src="$withBase('/java/组合.svg')" alt="组合关系"> | <img :src="$withBase('/java/关联.svg')" alt="关联关系"> | <img :src="$withBase('/java/依赖.svg')" alt="依赖关系"> |
 
 ## 访问权限控制
 

@@ -4,7 +4,7 @@
 
 ## JVM整体架构
 
-![JVM](/java/JVM.png)
+<img :src="$withBase('/jaav/JVM.png')" alt="JVM">
 
 ## 类字节码
 
@@ -12,7 +12,7 @@ class文件是以8字节为单位的二进制流, java文件编译为class文件
 
 **文件结构**:
 
-![java-jvm-class-2](/java/java-jvm-class-2.png)
+<img :src="$withBase('/java/java-jvm-class-2.png')" alt="java-jvm-class-2">
 
 ## JMM(Java Memory Model)
 

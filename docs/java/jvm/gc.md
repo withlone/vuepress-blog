@@ -27,7 +27,7 @@
 
 下图为HotSpot中主要的垃圾收集器, 连线表示可以配合使用
 
-![gc.jpg](/java/gc.jpg)
+<img :src="$withBase('/java/gc.jpg')" alt="gc">
 
 - `Serial`: 串行, 单线程, 新生代复制
 - `ParNew`: 串行, 多线程, 新生代复制

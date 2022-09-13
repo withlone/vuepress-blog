@@ -64,4 +64,4 @@ public <T> T getObject(Class<T> c) {
 
 > (Service Provider Interface), 服务提供发现机制, 为某个接口寻找服务实现
 
-![javaSpi](/java/javaSpi.jpg)
+<img :src="$withBase('/java/javaSpi.jpg')" alt="javaSpi">

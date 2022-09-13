@@ -4,13 +4,13 @@
 
 ## 开源协议
 
-![开源协议](/open_source_protocol.png)
+<img :src="$withBase('/open_source_protocol.png')" alt="开源协议">
 
 ## 知识共享许可协议
 
 > 协议的英文简称为涉及子协议的`-`连接, 如`by-nc-nd`&rarr;`姓名表示-非商业性-禁止改做`
 
-![知识共享许可协议](/knowledge_share_protocol.jpeg)
+<img :src="$withBase('/knowledge_share_protocol.jpeg')" alt="知识共享许可协议">
 
 ## RESTful
 
