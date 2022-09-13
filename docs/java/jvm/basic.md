@@ -4,7 +4,7 @@
 
 ## JVM整体架构
 
-<img :src="$withBase('/jaav/JVM.png')" alt="JVM">
+<img :src="$withBase('/java/JVM.png')" alt="JVM">
 
 ## 类字节码
 
