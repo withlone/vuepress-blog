@@ -44,7 +44,7 @@ export default defineConfig({
       '/basic/': [{
         title: '基础知识',
         collapsable: false,
-        children: ['network', 'theory']
+        children: ['network', 'theory', 'definition']
       }],
       '/java/': [{
         title: '基础理论',

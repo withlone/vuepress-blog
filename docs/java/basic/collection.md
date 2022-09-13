@@ -12,15 +12,15 @@
 
 ## Set
 
-- TreeSet: 红黑树实现, 支持有序操作, 效率低于HashSet, 查找复杂度O(log n)
-- HashSet: 哈希表实现, 不支持有序操作, 查找复杂度O(1), 哈希冲突少时用链表, 多时用红黑树
-- LinkedHashSet: HashSet基础上用双向链表维护元素插入顺序
+- `TreeSet`: 红黑树实现, 支持有序操作, 效率低于HashSet, 查找复杂度O(log n)
+- `HashSet`: 哈希表实现, 不支持有序操作, 查找复杂度O(1), 哈希冲突少时用链表, 多时用红黑树
+- `LinkedHashSet`: HashSet基础上用双向链表维护元素插入顺序
 
 ## List
 
-- ArrayList: 动态数组, 随机访问, 允许null元素
-- Vector: 线程安全的ArrayList
-- LinkedList: 双向链表, 顺序访问, 允许null元素
+- `ArrayList`: 动态数组, 随机访问, 允许null元素
+- `Vector`: 线程安全的ArrayList
+- `LinkedList`: 双向链表, 顺序访问, 允许null元素
 
 ### ArrayList
 
@@ -44,9 +44,9 @@
 
 ## Queue
 
-- LinkedList: 链表的双向队列
-- PriorityQueue: 堆实现, 优先队列
-- ArrayDeque: 数组的循环队列, 不允许null元素
+- `LinkedList`: 链表的双向队列
+- `PriorityQueue`: 堆实现, 优先队列
+- `ArrayDeque`: 数组的循环队列, 不允许null元素
 
 ### ArrayDeque
 
@@ -80,11 +80,11 @@
 
 ## Map
 
-- TreeMap: 红黑树实现
-- HashMap: 哈希表实现, 允许key, value为null
-- HashTable: 线程安全的HashTable, 但已被抛弃
-- LinkedHashMap: 双向链表维护元素顺序, 顺序为插入顺序或最少使用顺序
-- WeakHashMap: 元素可能被GC自动删除, 适用于缓存场景
+- `TreeMap`: 红黑树实现
+- `HashMap`: 哈希表实现, 允许key, value为null
+- `HashTable`: 线程安全的HashTable, 但已被抛弃
+- `LinkedHashMap`: 双向链表维护元素顺序, 顺序为插入顺序或最少使用顺序
+- `WeakHashMap`: 元素可能被GC自动删除, 适用于缓存场景
 
 ### HashMap
 

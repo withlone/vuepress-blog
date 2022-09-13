@@ -38,15 +38,15 @@ public <T> T getObject(Class<T> c) {
 
 ### 分类
 
-- Java自带注解: `@Override`, `@Deprecated`, `@SuppressWarnings`
-- 元注解: 用于定义注解的注解, `@Retention`(注解被保留的阶段), `@Target`(注解使用的范围), `@Inherited`(父类注解可被子类继承), `@Documented`(是否生成javadoc)
-- 自定义注解: 根据自己的需求定义注解
+- `Java自带注解`: `@Override`, `@Deprecated`, `@SuppressWarnings`
+- `元注解`: 用于定义注解的注解, `@Retention`(注解被保留的阶段), `@Target`(注解使用的范围), `@Inherited`(父类注解可被子类继承), `@Documented`(是否生成javadoc)
+- `自定义注解`: 根据自己的需求定义注解
 
 ## 异常
 
-- Throwable: 所有错误与异常的超类
-- Error(错误): 无法处理, JVM将终止进程, 如内存溢出, 栈溢出
-- Exception(异常): 可以捕获和处理的异常
+- `Throwable`: 所有错误与异常的超类
+- `Error(错误)`: 无法处理, JVM将终止进程, 如内存溢出, 栈溢出
+- `Exception(异常)`: 可以捕获和处理的异常
   - RuntimeException(运行时异常): java编译器不检查(可查异常), 可不捕获
   - 非运行时异常: 必须捕获
 
@@ -54,11 +54,11 @@ public <T> T getObject(Class<T> c) {
 
 > 反射指将java类中各个成分映射为一个个java对象
 
-- Class类: 表示一个java类
+- `Class类`: 表示一个java类
   - 获取方式: 类名.class, 对象.getClass(), Class.forName(全限定类名)
-- Constructor类: Class对象表示的类的构造方法
-- Field类: 提供有关类或接口的单个字段信息, 以及动态访问权限, 可为类字段或实例字段
-- Method类: 提供有关类或接口的单独某个方法的信息, 可为类方法或实例方法
+- `Constructor类`: Class对象表示的类的构造方法
+- `Field类`: 提供有关类或接口的单个字段信息, 以及动态访问权限, 可为类字段或实例字段
+- `Method类`: 提供有关类或接口的单独某个方法的信息, 可为类方法或实例方法
 
 ## SPI
 

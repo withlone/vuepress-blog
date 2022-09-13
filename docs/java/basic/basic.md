@@ -4,9 +4,9 @@
 
 ## 三大特性
 
-- 封装: 将数据和数据方法封装到一个类中
-- 继承
-- 多态
+- `封装`: 将数据和数据方法封装到一个类中
+- `继承`
+- `多态`
   - 编译时多态: 方法重载
   - 运行时多态: 对象引用在运行时确定(继承 + 重写 + 向上转型)
 
@@ -78,6 +78,6 @@ static {
 
 ## String, StringBuilder, StringBuffer
 
-- String: 不可变, 线程安全
-- StringBuilder: 可变, 线程不安全
-- StringBuffer: 可变, 线程安全, synchronized
+- `String`: 不可变, 线程安全
+- `StringBuilder`: 可变, 线程不安全
+- `StringBuffer`: 可变, 线程安全, synchronized
