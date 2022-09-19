@@ -31,8 +31,16 @@ export default defineConfig({
           }
         ]
       },
+      {
+        text: '框架',
+        items: [
+          {
+            text: 'SpringCloud',
+            link: '/framework/springcloud/'
+          }
+        ]
+      },
       { text: '待整理', link: '/unorganized/' },
-      { text: '摆烂', link: '/game/' },
       { text: '生活', link: '/life/' },
     ],
     sidebar: {
@@ -58,6 +66,11 @@ export default defineConfig({
         title: 'JVM',
         collapsable: false,
         children: ['jvm/basic', 'jvm/gc']
+      }],
+      '/framework/springcloud/': [{
+        title: 'SpringCloud',
+        collapsable: false,
+        children: ['', 'netflix', 'alibaba']
       }]
     },
   },
