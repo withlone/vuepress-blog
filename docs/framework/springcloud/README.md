@@ -16,7 +16,10 @@
 
 一系列微服务解决方案或框架的有序集合, 利用SpringBoot简化分布式系统基础设施的开发
 
-**2代实现**: `Spring Cloud Netflix`(第一代), `Spring Cloud Alibaba`(第二代)
+**2代实现**:
+
+- `Spring Cloud Netflix`(第一代): 服务端客户端均需嵌入代码
+- `Spring Cloud Alibaba`(第二代): 服务端可下载运行, 客户端需嵌入代码
 
 #### 版本
 
