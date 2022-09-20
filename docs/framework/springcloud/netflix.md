@@ -83,7 +83,7 @@
 
 持续记录所有通过Hystrix发送的请求
 
-## Gateyway
+## Gateway
 
 - API网关组件
 - 客户端与微服务之间的服务

@@ -37,6 +37,10 @@ export default defineConfig({
           {
             text: 'SpringCloud',
             link: '/framework/springcloud/'
+          },
+          {
+            text: 'Dubbo',
+            link: '/framework/dubbo/'
           }
         ]
       },
