@@ -8,7 +8,7 @@ RPC服务开发框架, 解决微服务架构下的服务治理与通信问题
 
 ## 服务发现
 
-<img :src="$withBase('/DubboArchitecture.png')" alt="Dubbo框架">
+<img :src="$withBase('/framework/dubbo/DubboArchitecture.png')" alt="Dubbo框架">
 
 **与Dubbo2区别**:
 
