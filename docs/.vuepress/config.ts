@@ -93,6 +93,6 @@ export default defineConfig({
   plugins: [
     ['vuepress-plugin-code-copy', {}], '@vuepress/plugin-medium-zoom'
   ],
-  // base: '/camille.github.io/', // 构建到github上时使用该代码
+  // base: '/camille/', // 构建到github上时使用该代码
   dest: './build'
 });
