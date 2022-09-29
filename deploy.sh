@@ -10,6 +10,6 @@ git init
 git add .
 git commit -m "deploy"
 git branch -M main
-git push -f git@github.com:withlone/camille.github.io.git main
+git push -f git@github.com:withlone/camille.git main
 
 cd -
