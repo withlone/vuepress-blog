@@ -15,6 +15,15 @@ export default defineConfig({
       { text: '常用表', link: '/always/network' },
       { text: '基础知识', link: '/basic/network' },
       {
+        text: '数据库',
+        items: [
+          {
+            text: 'MySQL',
+            link: '/database/mysql'
+          }
+        ]
+      },
+      {
         text: 'Java',
         items: [
           {
