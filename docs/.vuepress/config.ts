@@ -55,6 +55,7 @@ export default defineConfig({
       },
       { text: '待整理', link: '/unorganized/' },
       { text: '生活', link: '/life/' },
+      { text: '系统安装', link: '/system/'},
     ],
     sidebar: {
       '/always/': [{
