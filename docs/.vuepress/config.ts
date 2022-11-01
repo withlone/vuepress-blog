@@ -27,16 +27,30 @@ export default defineConfig({
         text: 'Java',
         items: [
           {
-            text: '基础理论',
-            link: '/java/basic/basic'
+            text: '理论知识',
+            items: [
+              {
+                text: '基础理论',
+                link: '/java/theory/basic/basic'
+              },
+              {
+                text: '多进程',
+                link: '/java/theory/multi_process/basic'
+              },
+              {
+                text: 'JVM',
+                link: '/java/theory/jvm/basic'
+              }
+            ]
           },
           {
-            text: '多进程',
-            link: '/java/multi_process/basic'
-          },
-          {
-            text: 'JVM',
-            link: '/java/jvm/basic'
+            text: 'SpringBoot',
+            items: [
+              {
+                text: 'bugs',
+                link: '/java/springboot/bug'
+              }
+            ]
           }
         ]
       },
@@ -55,7 +69,7 @@ export default defineConfig({
       },
       { text: '待整理', link: '/unorganized/' },
       { text: '生活', link: '/life/' },
-      { text: '系统安装', link: '/system/'},
+      { text: '系统安装', link: '/system/' },
     ],
     sidebar: {
       '/always/': [{
@@ -68,15 +82,15 @@ export default defineConfig({
         collapsable: false,
         children: ['network', 'theory', 'definition']
       }],
-      '/java/': [{
+      '/java/theory/': [{
         title: '基础理论',
         collapsable: false,
         children: ['basic/basic', 'basic/mechanism', 'basic/collection']
-      },{
+      }, {
         title: '多线程',
         collapsable: false,
         children: ['multi_process/basic', 'multi_process/javalib']
-      },{
+      }, {
         title: 'JVM',
         collapsable: false,
         children: ['jvm/basic', 'jvm/gc']

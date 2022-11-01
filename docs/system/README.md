@@ -52,9 +52,11 @@ sidebar: auto
 
 - `汉化`: `MS-CEINTL.vscode-language-pack-zh-hans`
 - `Markdown`: `yzhang.markdown-all-in-one`, `yzane.markdown-pdf`(pdf导出), `DavidAnson.vscode-markdownlint`(代码检查)
+- `代码补全`: VisualStudioExptTeam.vscodeintellicode
 - `Go`: `golang.go`
 - `Docker`: `ms-azuretools.vscode-docker`
 - `Java`: `vscjava.vscode-java-pack`
+- `python`: `ms-python.vscode-pylance`
 - `SSH`: `ms-vscode-remote.remote-ssh`
 - `Git`: `eamodio.gitlens`
 - `代码格式化`: `jbockle.jbockle-format-files`
@@ -85,11 +87,11 @@ sidebar: auto
 
 **User Settings**:
 
-`ctrl+shift+P`输入`user settings(JSON)`
+`ctrl+shift+P`输入`user settings(JSON)`, 参考以下配置
 
 ```JSON
 {
-  "workbench.colorTheme": "Quiet Light",
+  "workbench.colorTheme": "Eva Light",
   "editor.tabSize": 2,
   "terminal.integrated.cursorStyle": "line",
   "git.path": "D:\\tool\\Git",
@@ -98,10 +100,66 @@ sidebar: auto
       "path": "D:\\tool\\Git\\bin\\bash.exe"
     }
   },
+  "terminal.integrated.defaultProfile.windows": "Git-Bash",
+  "files.associations": {
+    "*.java": "java",
+    "*.md": "markdown"
+  },
   "java.jdt.ls.java.home": "d:\\env\\Java\\jdk-17.0.4.1",
-  "terminal.integrated.defaultProfile.windows": "Git-Bash"
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "python.formatting.autopep8Args": ["--indent-size=2"],
 }
 ```
+
+## IDEA
+
+[下载地址](https://www.jetbrains.com/zh-cn/idea/download/#section=windows)
+
+**插件**:
+
+`Settings` $\rightarrow$ `Plugins`
+
+1. `Spring Boot Assistant`
+2. `Grep Console`
+
+**配置**:
+
+1. `Settings` $\rightarrow$ `Build, Execution, Deployment` $\rightarrow$ `Build Tools` $\rightarrow$ `Maven` 修改`User settings file`和`Local repository`
+2. `Settings` $\rightarrow$ `Tool` $\rightarrow$ `Terminal` $\rightarrow$ `shell path`修改为git路径
+
+## Maven
+
+[下载地址](https://maven.apache.org/download.cgi), 选择`.zip`
+
+**配置**:
+
+1. 将`zip`文件解压到指定文件夹中
+2. 添加环境变量指向`解压地址/bin`
+3. 在`*/conf/settings.xml`添加
+
+在`<localRepository>`注释处添加
+
+``` xml
+<localRepository>D:\repo\cache\Maven</localRepository>
+```
+
+在`<mirrors>`内添加
+
+``` xml
+<mirror>
+  <id>alimaven</id>
+  <mirrorOf>central</mirrorOf>
+  <name>aliyun maven</name>
+  <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+</mirror>
+```
+
+**验证**: `mvn help:system`, 观察结果以及仓库地址是否有文件加入
 
 ## Seafile清华云盘
 
@@ -162,6 +220,21 @@ VSCode中`ctrl+shift+P`, 输入`open user settings(json)`
 
 - 下载[wsl](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi), 为windows安装linux子系统, 用于运行docker
 
+**镜像源**:
+
+`Settings` $\rightarrow$ `Docker Engine` 添加
+
+``` json
+{
+  ...,
+  "registry-mirrors": [
+    "https://hub-mirror.c.163.com",
+    "https://registry.docker-cn.com",
+    "https://docker.mirrors.ustc.edu.cn"
+  ]
+}
+```
+
 ### NodeJS
 
 [下载地址](http://nodejs.cn/download/)
@@ -198,6 +271,10 @@ VSCode中`ctrl+shift+P`, 输入`open user settings(json)`
 ## WinRAR
 
 [下载地址](http://www.winrar.com.cn/)
+
+**提示**:
+
+如果无法在右键时看到`winRAR`选项, 则打开`winRAR`, 选择`设置` $\rightarrow$ `集成`, 勾选`外壳集成`的所有
 
 ## WPS
 
