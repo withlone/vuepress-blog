@@ -31,9 +31,10 @@ sidebar: auto
   1. `win+R`输入`regedit`
   2. 在`\HKEY_CLASSES_ROOT\Directory\Background\shell`新增项`runas`，设置默认值为`以管理员身份打开(&C)`
   3. 在`runas`下新增`DWORD32`，名称为`ShowBasedOnVelocityld`，值为十六进制`639bc8`
-  4. 在`runas`下新增字符串名称`Icon`，值为`C:\Windows\system32\cmd.exe`
-  5. 在`runas`下新增项`command`，设置默认值为`cmd.exe /s /k pushd "%V"`
+  4. 在`runas`下新增字符串名称`Icon`，值为`C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.15.2875.0_x64__8wekyb3d8bbwe\wt.exe`(若不存在则使用`C:\Windows\system32\cmd.exe`)
+  5. 在`runas`下新增项`command`，设置默认值为`wt -d "%V"`(若不存在则使用`cmd.exe /s /k pushd "%V"`)
   6. 如何希望能够按某个字母快速定位到此位置可以在`runas`的值后面加上`&C`使得按`C`快速定位
+  7. 在`\HKEY_CLASSES_ROOT\Directory\shell`下进行类似的操作可以使得右键选择文件夹时添加该操作
 
 ## 搜狗输入法
 
@@ -113,6 +114,11 @@ sidebar: auto
     "editor.defaultFormatter": "ms-python.python"
   },
   "python.formatting.autopep8Args": ["--indent-size=2"],
+  "security.workspace.trust.untrustedFiles": "open",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "editor.snippetSuggestions": "top",
 }
 ```
 
@@ -263,6 +269,30 @@ VSCode中`ctrl+shift+P`, 输入`open user settings(json)`
 
 - [Xshell](https://www.xshell.com/zh/xshell/)
 - [Xftp](https://www.xshell.com/zh/xftp/)
+
+### Miniconda
+
+[下载地址](https://docs.conda.io/en/latest/miniconda.html)
+
+1. 根据[CUDA Notes](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)查看gpu对应的`CUDA`版本
+2. 在[CUDA Download](https://developer.nvidia.com/cuda-toolkit-archive)选择需要的`CUDA`版本进行下载
+3. 根据提示进行安装, 安装后用`nvcc -V`测试是否安装成功, 然后使用`set cuda`设置`CUDA`环境变量
+4. 根据`CUDA`对应版本安装[cuDNN Download](https://developer.nvidia.com/rdp/cudnn-download)
+5. 将安装的`cuDDN`解压到`CUDA`所在文件夹下, 默认路径为`C:\Program Files\NIVIDIA GPU Computing Toolkit\CUDA`
+6. 环境变量中添加以下, 以下为默认路径参考
+
+``` txt
+C:\Program Files\NIVIDIA GPU Computing Toolkit\CUDA\v11.2\bin
+C:\Program Files\NIVIDIA GPU Computing Toolkit\CUDA\v11.2\include
+C:\Program Files\NIVIDIA GPU Computing Toolkit\CUDA\v11.2\lib
+C:\Program Files\NIVIDIA GPU Computing Toolkit\CUDA\v11.2\libnvvp
+```
+
+**pytorch安装**:
+
+- 通常情况根据[PyTorch Download](https://pytorch.org/get-started/locally/)下的指令进行下载, 一般选择`pip`
+- 对于非最新版本`CUDA`, 参考[Previous Version](https://pytorch.org/get-started/previous-versions)
+- `Windows`下安装`CUDA`时需要指定版本, 否则自动下载cpu版, 如`pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113`
 
 ## 腾讯会议
 
